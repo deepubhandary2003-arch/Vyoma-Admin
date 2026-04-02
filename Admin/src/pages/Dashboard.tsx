@@ -1,9 +1,14 @@
-import StatCard from '../components/cards/StatCard'
-import { DollarSign, Package, Star, Users, TrendingUp} from 'lucide-react'
+import { DollarSign, Package, Star, Users, TrendingUp } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '@/components/ui/button'
 
+import {
+  PieChart, Pie, Cell, ResponsiveContainer,
+  LineChart, Line, XAxis, YAxis, Tooltip
+} from "recharts"
+
 const Dashboard = () => {
+
   const stats = [
     { title: 'Total Revenue', value: '$24,580', icon: DollarSign, change: '+12%' },
     { title: 'Active Products', value: '1,248', icon: Package, change: '+8%' },
@@ -11,94 +16,242 @@ const Dashboard = () => {
     { title: 'Active Vendors', value: '342', icon: Users, change: '+5%' },
   ]
 
+  const donutData = [
+    { name: "Sales", value: 85 },
+    { name: "Remaining", value: 15 },
+  ]
+
+  const COLORS = ["#6366F1", "#E5E7EB"]
+
+  const lineData = [
+    { name: "Jan", sales: 400 },
+    { name: "Feb", sales: 300 },
+    { name: "Mar", sales: 500 },
+    { name: "Apr", sales: 400 },
+    { name: "May", sales: 600 },
+    { name: "Jun", sales: 550 },
+  ]
+
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-      {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
+    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-4 bg-background text-foreground">
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">Welcome back, Admin! Here's what's happening.</p>
+          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Welcome back, Admin! Here's what's happening.
+          </p>
         </div>
-        <div className="mt-4 sm:mt-0">
-          <Button className="w-full sm:w-auto">
-            <TrendingUp className="w-4 h-4 mr-2" />
-            View Reports
-          </Button>
-        </div>
+        <Button className="mt-4 sm:mt-0">
+          <TrendingUp className="w-4 h-4 mr-2" />
+          View Reports
+        </Button>
       </div>
-      
-      {/* Stats Grid - Mobile: 1 col, Tablet: 2 cols, Desktop: 4 cols */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
         {stats.map((stat, index) => (
-          <StatCard key={index} {...stat} />
+          <Card key={index} className="shadow-sm rounded-xl bg-card text-card-foreground">
+            <CardContent className="p-2 flex items-center justify-between">
+              <div className="space-y-0.5">
+                <p className="text-[11px] text-muted-foreground">{stat.title}</p>
+                <p className="text-base font-semibold">{stat.value}</p>
+                <p className="text-[11px] text-green-600">{stat.change}</p>
+              </div>
+              <div className="p-1.5 bg-muted rounded-full">
+                <stat.icon className="w-3.5 h-3.5 text-green-600" />
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
-      {/* Charts Section - Mobile: 1 col, Desktop: 2 cols */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      {/* Activity + Quick Stats */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
         {/* Recent Activity */}
-        <Card className="w-full">
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Recent Activity</CardTitle>
-            <CardDescription className="text-sm">Latest updates from your store</CardDescription>
+        <Card className="h-72 bg-card text-card-foreground">
+          <CardHeader className="p-3 pb-1">
+            <CardTitle className="text-base">Recent Activity</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground">
+              Latest updates from your store
+            </CardDescription>
           </CardHeader>
-          <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
-            <div className="space-y-3 sm:space-y-4">
-              {[
-                { activity: 'New product added by Vendor A', time: '2 min ago', icon: Package },
-                { activity: 'Payment received for Order #1234', time: '15 min ago', icon: DollarSign },
-                { activity: 'New vendor registration approved', time: '1 hour ago', icon: Users },
-                { activity: 'Banner updated on homepage', time: '2 hours ago', icon: Star },
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-start sm:items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                    <div className="p-1.5 sm:p-2 bg-white rounded-lg">
-                      <item.icon className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm font-medium">{item.activity}</p>
-                      <p className="text-xs text-gray-500 sm:hidden">{item.time}</p>
-                    </div>
+
+          <CardContent className="p-2 pt-0 space-y-2 overflow-y-auto">
+            {[
+              { activity: 'New product added by Vendor A', time: '2 min ago', icon: Package },
+              { activity: 'Payment received for Order #1234', time: '15 min ago', icon: DollarSign },
+              { activity: 'New vendor approved', time: '1 hour ago', icon: Users },
+              { activity: 'Banner updated', time: '2 hours ago', icon: Star },
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-center justify-between px-3 py-2 bg-muted rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-background rounded-md">
+                    <item.icon className="w-3.5 h-3.5 text-muted-foreground" />
                   </div>
-                  <span className="hidden sm:block text-xs sm:text-sm text-gray-500">{item.time}</span>
+                  <p className="text-sm">{item.activity}</p>
+                </div>
+                <span className="text-xs text-muted-foreground">{item.time}</span>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        {/* Quick Stats */}
+        <Card className="h-72 bg-card text-card-foreground">
+          <CardHeader className="p-3 pb-1">
+            <CardTitle className="text-base">Quick Stats</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground">
+              Overview
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="p-3 pt-0">
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: "Pending Reviews", value: 12, color: "text-yellow-600" },
+                { label: "Unpaid Vendors", value: 8, color: "text-orange-600" },
+                { label: "Banners", value: 5, color: "text-green-600" },
+                { label: "Low Stock", value: 12, color: "text-red-600" },
+              ].map((item, i) => (
+                <div key={i} className="p-2 bg-muted rounded-md">
+                  <p className="text-xs text-muted-foreground">{item.label}</p>
+                  <p className={`text-sm font-semibold ${item.color}`}>{item.value}</p>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        {/* Quick Stats */}
-        <Card className="w-full">
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Quick Stats</CardTitle>
-            <CardDescription className="text-sm">Overview of pending items</CardDescription>
+      </div>
+
+      {/* Charts */}
+      <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        {/* Donut */}
+        <Card className="bg-card text-card-foreground shadow-sm rounded-xl h-78">
+          <CardHeader className="p-3">
+            <CardTitle className="text-base">Total Bill</CardTitle>
           </CardHeader>
-          <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg">
-                <p className="text-xs sm:text-sm text-gray-600">Pending Reviews</p>
-                <p className="text-xl sm:text-2xl font-bold text-yellow-600">12</p>
-                <p className="text-xs text-gray-500 mt-1">+2 today</p>
+
+          <CardContent className="p-6 pt-0 flex items-center gap-6">
+
+            <div className="text-xs space-y-2 text-muted-foreground">
+              <p>Received Amount: 1,523,151</p>
+              <p>Ordered Amount: 3,124,213</p>
+              <p>Refund Amount: 9,482</p>
+              <p>Due Amount: 9,482</p>
+            </div>
+
+            <div className="relative w-40 h-40 flex items-center justify-center">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={donutData} dataKey="value" innerRadius={40} outerRadius={60}>
+                    {donutData.map((entry, index) => (
+                      <Cell key={index} fill={COLORS[index]} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-sm font-semibold text-muted-foreground">85%</span>
               </div>
-              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg">
-                <p className="text-xs sm:text-sm text-gray-600">Unpaid Vendors</p>
-                <p className="text-xl sm:text-2xl font-bold text-orange-600">8</p>
-                <p className="text-xs text-gray-500 mt-1">$3,450 total</p>
-              </div>
-              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg">
-                <p className="text-xs sm:text-sm text-gray-600">Banners Live</p>
-                <p className="text-xl sm:text-2xl font-bold text-green-600">5</p>
-                <p className="text-xs text-gray-500 mt-1">3 active</p>
-              </div>
-              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg">
-                <p className="text-xs sm:text-sm text-gray-600">Low Stock</p>
-                <p className="text-xl sm:text-2xl font-bold text-red-600">12</p>
-                <p className="text-xs text-gray-500 mt-1">5 critical</p>
-              </div>
+            </div>
+
+          </CardContent>
+        </Card>
+
+        {/* Line */}
+        <Card className="bg-card text-card-foreground shadow-sm rounded-xl h-78">
+          <CardHeader className="p-3 flex justify-between items-center">
+            <CardTitle className="text-base">Statistics</CardTitle>
+            <span className="text-xs text-muted-foreground">Mar 2026</span>
+          </CardHeader>
+
+          <CardContent className="p-3 pt-0">
+            <div className="w-full h-52">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={lineData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="sales" stroke="#6366F1" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
+
       </div>
+
+      {/* Audience */}
+      <Card className="mt-6 bg-card text-card-foreground shadow-sm rounded-xl">
+        <CardHeader className="flex justify-between">
+          <div>
+            <CardTitle className="text-sm text-muted-foreground">Audience</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground">
+              Customers have visited website
+            </CardDescription>
+          </div>
+          <span className="text-xs text-muted-foreground">March 2026</span>
+        </CardHeader>
+
+        <CardContent className="flex flex-col md:flex-row items-center justify-between gap-4">
+
+          {/* LEFT */}
+          <div className="w-full md:w-[65%] space-y-4">
+            <div>
+              <p className="text-xs text-muted-foreground">New Users</p>
+              <div className="h-2 bg-muted rounded-full">
+                <div className="h-full w-[70%] bg-gradient-to-r from-purple-500 to-blue-500"></div>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs text-muted-foreground">Returning Users</p>
+              <div className="h-2 bg-muted rounded-full">
+                <div className="h-full w-[50%] bg-gradient-to-r from-indigo-400 to-purple-500"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT - BIG CIRCLE */}
+          <div className="relative w-40 h-40 flex items-center justify-center">
+            <svg className="w-full h-full -rotate-90">
+
+              <circle
+                cx="80"
+                cy="80"
+                r="60"
+                stroke="hsl(var(--muted))"
+                strokeWidth="8"
+                fill="transparent"
+              />
+
+              <circle
+                cx="80"
+                cy="80"
+                r="60"
+                stroke="#8B5CF6"
+                strokeWidth="8"
+                fill="transparent"
+                strokeDasharray="377"
+                strokeDashoffset="203"
+                strokeLinecap="round"
+              />
+            </svg>
+
+            <span className="absolute text-lg font-semibold text-muted-foreground">
+              46%
+            </span>
+          </div>
+
+        </CardContent>
+      </Card>
+
     </div>
   )
 }

@@ -25,7 +25,6 @@ const Reviews = () => {
     { id: 8, product: 'Webcam HD', rating: 4, comment: 'Good quality for video calls.', customer: 'Nina Patel', date: '2024-01-13' },
   ]
 
-  // Remove search filter - show all reviews
   const filteredReviews = reviews
 
   const indexOfLastItem = currentPage * itemsPerPage
@@ -40,26 +39,16 @@ const Reviews = () => {
     fourStar: reviews.filter(r => r.rating === 4).length,
   }
 
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-3 h-3 sm:w-4 sm:h-4 ${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
-          />
-        ))}
-      </div>
-    )
-  }
-
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-4 bg-background text-foreground">
+
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Product Reviews</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">Manage all customer reviews</p>
+          <h1 className="text-2xl font-bold text-foreground">Product Reviews</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Manage all customer reviews
+          </p>
         </div>
         <Button variant="outline" className="w-full sm:w-auto mt-4 sm:mt-0">
           <MessageSquare className="w-4 h-4 mr-2" />
@@ -67,140 +56,139 @@ const Reviews = () => {
         </Button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
-        <Card>
-          <CardContent className="p-4 sm:p-6">
-            <p className="text-xs sm:text-sm text-gray-600">Total Reviews</p>
-            <p className="text-lg sm:text-2xl font-bold text-gray-900">{stats.totalReviews}</p>
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+        
+        <Card className="shadow-sm rounded-xl">
+          <CardContent className="p-2">
+            <p className="text-[11px] text-muted-foreground">Total Reviews</p>
+            <p className="text-base font-semibold">{stats.totalReviews}</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 sm:p-6">
-            <p className="text-xs sm:text-sm text-gray-600">Average Rating</p>
-            <div className="flex items-center gap-2 mt-1">
-              <p className="text-lg sm:text-2xl font-bold text-gray-900">{stats.averageRating}</p>
-              <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-yellow-400" />
+
+        <Card className="shadow-sm rounded-xl">
+          <CardContent className="p-2">
+            <p className="text-[11px] text-muted-foreground">Average Rating</p>
+            <div className="flex items-center gap-1">
+              <p className="text-base font-semibold">{stats.averageRating}</p>
+              <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-blue-50">
-          <CardContent className="p-4 sm:p-6">
-            <p className="text-xs sm:text-sm text-gray-600">5 Star Reviews</p>
-            <p className="text-lg sm:text-2xl font-bold text-blue-600">{stats.fiveStar}</p>
+
+        <Card className="shadow-sm rounded-xl">
+          <CardContent className="p-2">
+            <p className="text-[11px] text-muted-foreground">5 Star Reviews</p>
+            <p className="text-base font-semibold text-blue-600">{stats.fiveStar}</p>
           </CardContent>
         </Card>
-        <Card className="bg-purple-50">
-          <CardContent className="p-4 sm:p-6">
-            <p className="text-xs sm:text-sm text-gray-600">4 Star Reviews</p>
-            <p className="text-lg sm:text-2xl font-bold text-purple-600">{stats.fourStar}</p>
+
+        <Card className="shadow-sm rounded-xl">
+          <CardContent className="p-2">
+            <p className="text-[11px] text-muted-foreground">4 Star Reviews</p>
+            <p className="text-base font-semibold text-purple-600">{stats.fourStar}</p>
           </CardContent>
         </Card>
+
       </div>
 
-      {/* Reviews List - Directly after stats */}
-      <Card className="w-full">
-        <CardHeader className="p-4 sm:p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <CardTitle className="text-lg sm:text-xl">Customer Reviews</CardTitle>
-              <CardDescription className="text-xs sm:text-sm mt-1">
-                {filteredReviews.length} reviews found
-              </CardDescription>
-            </div>
-          </div>
+      {/* Reviews List */}
+      <Card className="w-full bg-card text-card-foreground shadow-sm">
+        <CardHeader className="p-3 pb-2">
+          <CardTitle className="text-base font-semibold">Customer Reviews</CardTitle>
+          <CardDescription className="mt-0.5 text-xs text-muted-foreground">
+            {filteredReviews.length} reviews found
+          </CardDescription>
         </CardHeader>
-        <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
-          <div className="space-y-4">
+
+        <CardContent className="p-3 pt-1">
+          <div className="space-y-2">
             {currentReviews.map((review) => (
-              <div key={review.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                {/* Mobile View */}
-                <div className="block sm:hidden space-y-3">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-semibold text-base">{review.product}</h3>
-                      <p className="text-xs text-gray-500">by {review.customer}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    {renderStars(review.rating)}
-                    <span className="text-xs text-gray-500">{review.date}</span>
-                  </div>
-                  
-                  <p className="text-sm text-gray-700">{review.comment}</p>
-                  
-                  <div className="flex gap-2 pt-2">
-                    <Button size="sm" variant="outline" className="flex-1">
-                      <Eye className="w-4 h-4 mr-1" />
-                      View
-                    </Button>
-                    <Button size="sm" variant="outline" className="text-red-600 flex-1">
-                      <Trash2 className="w-4 h-4 mr-1" />
-                      Delete
-                    </Button>
-                  </div>
+              
+              <div 
+                key={review.id} 
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-3 py-2 bg-muted hover:bg-muted/70 rounded-lg transition-colors"
+              >
+
+                {/* LEFT */}
+                <div className="flex flex-col">
+                  <p className="text-sm font-medium">{review.product}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {review.customer} • {review.comment.slice(0, 30)}...
+                  </p>
                 </div>
 
-                {/* Desktop View */}
-                <div className="hidden sm:flex sm:items-start sm:justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-lg">{review.product}</h3>
-                    </div>
-                    <div className="flex items-center gap-3 mb-2">
-                      {renderStars(review.rating)}
-                      <span className="text-sm text-gray-500">by {review.customer}</span>
-                      <span className="text-sm text-gray-500">• {review.date}</span>
-                    </div>
-                    <p className="text-gray-700">{review.comment}</p>
+                {/* RIGHT */}
+                <div className="flex items-center justify-between sm:justify-end gap-3">
+
+                  {/* Rating */}
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-3 h-3 ${
+                          i < review.rating
+                            ? 'text-yellow-400 fill-yellow-400'
+                            : 'text-gray-300'
+                        }`}
+                      />
+                    ))}
                   </div>
-                  <div className="flex gap-2 ml-4">
-                    <Button size="sm" variant="outline">
-                      <Eye className="w-4 h-4 mr-1" />
-                      View
+
+                  {/* Date */}
+                  <span className="text-xs text-muted-foreground">
+                    {review.date}
+                  </span>
+
+                  {/* Actions */}
+                  <div className="flex gap-1">
+                    <Button size="sm" variant="ghost" className="p-1 h-auto">
+                      <Eye className="w-3.5 h-3.5" />
                     </Button>
-                    <Button size="sm" variant="outline" className="text-red-600">
-                      <Trash2 className="w-4 h-4 mr-1" />
-                      Delete
+                    <Button size="sm" variant="ghost" className="p-1 h-auto text-red-600">
+                      <Trash2 className="w-3.5 h-3.5" />
                     </Button>
                   </div>
+
                 </div>
               </div>
+
             ))}
           </div>
 
           {/* Pagination */}
-          {filteredReviews.length > 0 && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
-              <p className="text-xs sm:text-sm text-gray-600 order-2 sm:order-1">
-                Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredReviews.length)} of {filteredReviews.length} reviews
-              </p>
-              <div className="flex items-center gap-1 sm:gap-2 order-1 sm:order-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                  className="h-8 w-8 sm:h-9 sm:w-9 p-0"
-                >
-                  <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
-                </Button>
-                <span className="text-xs sm:text-sm">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                  className="h-8 w-8 sm:h-9 sm:w-9 p-0"
-                >
-                  <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
-                </Button>
-              </div>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+            <p className="text-xs sm:text-sm text-muted-foreground order-2 sm:order-1">
+              Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredReviews.length)} of {filteredReviews.length} reviews
+            </p>
+
+            <div className="flex items-center gap-2 order-1 sm:order-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+
+              <span className="text-sm">
+                {currentPage} / {totalPages}
+              </span>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
             </div>
-          )}
+          </div>
+
         </CardContent>
       </Card>
     </div>

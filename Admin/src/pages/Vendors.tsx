@@ -238,64 +238,79 @@ const Vendors = () => {
   return (
     <div className="px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-8">
-        <div>
-          <h1 className="text-xl sm:text-3xl font-bold text-gray-900">Vendors</h1>
-          <p className="text-xs sm:text-base text-gray-600 mt-0.5 sm:mt-1">Manage all registered vendors</p>
-        </div>
-        <Button className="w-full sm:w-auto mt-3 sm:mt-0 text-sm sm:text-base h-9 sm:h-11">
-          <UserPlus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-          Add Vendor
-        </Button>
-      </div>
+       <div className="mb-4">
+      <h1 className="text-2xl font-bold text-foreground">Vendors</h1>
+      <p className="text-sm text-muted-foreground mt-0.5">
+        Manage all registered vendors
+      </p>
+    </div>
 
       {/* Stats Cards */}
-      <div className="overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 sm:overflow-visible mb-4 sm:mb-8">
-        <div className="flex sm:grid sm:grid-cols-3 gap-2 sm:gap-4 min-w-max sm:min-w-0">
-          <Card className="w-24 sm:w-auto flex-shrink-0">
-            <CardContent className="p-2 sm:p-6">
-              <p className="text-[10px] sm:text-sm text-gray-600">Total Vendors</p>
-              <p className="text-sm sm:text-2xl font-bold">{stats.totalVendors}</p>
-            </CardContent>
-          </Card>
-          <Card className="w-24 sm:w-auto flex-shrink-0 bg-blue-50">
-            <CardContent className="p-2 sm:p-6">
-              <p className="text-[10px] sm:text-sm text-gray-600">Total Products</p>
-              <p className="text-sm sm:text-2xl font-bold text-blue-600">{stats.totalProducts}</p>
-            </CardContent>
-          </Card>
-          <Card className="w-24 sm:w-auto flex-shrink-0 bg-purple-50">
-            <CardContent className="p-2 sm:p-6">
-              <p className="text-[10px] sm:text-sm text-gray-600">Total Revenue</p>
-              <p className="text-sm sm:text-2xl font-bold text-purple-600">${stats.totalRevenue}</p>
-            </CardContent>
-          </Card>
-        </div>
+      {/* Stats Cards - FIXED */}
+<div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+
+  <Card className="bg-card text-card-foreground shadow-sm rounded-xl">
+    <CardContent className="p-2 flex items-center justify-between">
+      <div className="space-y-0.5">
+        <p className="text-[11px] text-muted-foreground">Total Vendors</p>
+        <p className="text-base font-semibold">{stats.totalVendors}</p>
+      </div>
+      <div className="p-1.5 bg-muted rounded-full">
+        <Store className="w-3.5 h-3.5 text-blue-600" />
+      </div>
+    </CardContent>
+  </Card>
+
+  <Card className="bg-card text-card-foreground shadow-sm rounded-xl">
+    <CardContent className="p-2 flex items-center justify-between">
+      <div className="space-y-0.5">
+        <p className="text-[11px] text-muted-foreground">Total Products</p>
+        <p className="text-base font-semibold text-blue-600">{stats.totalProducts}</p>
+      </div>
+      <div className="p-1.5 bg-muted rounded-full">
+        <Package className="w-3.5 h-3.5 text-blue-600" />
+      </div>
+    </CardContent>
+  </Card>
+
+  <Card className="bg-card text-card-foreground shadow-sm rounded-xl">
+    <CardContent className="p-2 flex items-center justify-between">
+      <div className="space-y-0.5">
+        <p className="text-[11px] text-muted-foreground">Total Revenue</p>
+        <p className="text-base font-semibold text-purple-600">${stats.totalRevenue}</p>
+      </div>
+      <div className="p-1.5 bg-muted rounded-full">
+        <DollarSign className="w-3.5 h-3.5 text-purple-600" />
+      </div>
+    </CardContent>
+  </Card>
+
+
       </div>
 
       {/* Vendors List - SINGLE LINE CARDS */}
       <div className="space-y-2 sm:space-y-3">
         {currentVendors.map((vendor) => (
-          <Card key={vendor.id} className="hover:shadow-md transition-shadow">
-            <CardContent className="p-2 sm:p-3">
+          <Card key={vendor.id} className="bg-card text-card-foreground shadow-sm hover:shadow transition-all rounded-lg">
+            <CardContent className="p-2">
               {/* Single Line Layout */}
-              <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-2">
                 {/* Logo */}
                 <div className="flex-shrink-0">
                   {vendor.businessLogo ? (
                     <img src={vendor.businessLogo} alt={vendor.businessName} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full" />
                   ) : (
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <Store className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-muted  rounded-full flex items-center justify-center">
+                      <Store className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
                     </div>
                   )}
                 </div>
 
                 {/* Business Info - 1 line */}
-                <div className="flex-1 min-w-0 flex items-center gap-2 sm:gap-4">
+                <div className="flex-1 min-w-0 flex items-center gap-2">
                   <div className="min-w-0 flex-1">
                     <h3 className="font-semibold text-xs sm:text-sm truncate">{vendor.businessName}</h3>
-                    <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs text-gray-500">
+                    <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs text-muted-foreground">
                       <span className="truncate">{vendor.ownerName}</span>
                       <span>•</span>
                       <span className="truncate">{vendor.businessType}</span>
@@ -303,7 +318,7 @@ const Vendors = () => {
                   </div>
 
                   {/* Contact - hide on mobile, show on tablet/desktop */}
-                  <div className="hidden sm:flex items-center gap-4 text-xs text-gray-600">
+                  <div className="hidden sm:flex items-center gap-4 text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Mail className="w-3 h-3" />
                       <span className="truncate max-w-[150px]">{vendor.email}</span>
@@ -317,11 +332,11 @@ const Vendors = () => {
                   {/* Stats - show on all devices */}
                   <div className="flex items-center gap-2 sm:gap-4 text-xs">
                     <div className="flex items-center gap-1">
-                      <Package className="w-3 h-3 text-gray-400" />
+                      <Package className="w-3 h-3 text-muted-foreground" />
                       <span className="font-medium">{vendor.products}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <DollarSign className="w-3 h-3 text-gray-400" />
+                      <DollarSign className="w-3 h-3 text-muted-foreground" />
                       <span className="font-medium">{vendor.revenue}</span>
                     </div>
                     <div className="flex items-center gap-1">
@@ -335,7 +350,7 @@ const Vendors = () => {
                     <Button 
                       size="sm" 
                       variant="ghost" 
-                      className="h-7 w-7 sm:h-8 sm:w-8 p-0"
+                      className="h-7 w-7 p-0"
                       onClick={() => viewVendorDetails(vendor)}
                     >
                       <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -359,7 +374,7 @@ const Vendors = () => {
       {/* Pagination */}
       {filteredVendors.length > 0 && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 sm:mt-8">
-          <p className="text-[10px] sm:text-sm text-gray-600 order-2 sm:order-1">
+          <p className="text-[10px] sm:text-sm text-muted-foreground order-2 sm:order-1">
             Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredVendors.length)} of {filteredVendors.length}
           </p>
           <div className="flex items-center gap-1 sm:gap-2 order-1 sm:order-2">
@@ -405,8 +420,8 @@ const Vendors = () => {
                 {selectedVendor.businessLogo ? (
                   <img src={selectedVendor.businessLogo} alt={selectedVendor.businessName} className="w-16 h-16 rounded-full" />
                 ) : (
-                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
-                    <Store className="w-8 h-8 text-gray-400" />
+                  <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
+                    <Store className="w-8 h-8 text-muted-foreground" />
                   </div>
                 )}
                 <div>
@@ -422,11 +437,11 @@ const Vendors = () => {
                 </h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Owner Name</p>
+                    <p className="text-sm text-muted-foreground">Owner Name</p>
                     <p className="font-medium">{selectedVendor.ownerName}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Business Type</p>
+                    <p className="text-sm text-muted-foreground">Business Type</p>
                     <p className="font-medium">{selectedVendor.businessType}</p>
                   </div>
                 </div>
@@ -443,23 +458,23 @@ const Vendors = () => {
                 <h4 className="font-semibold mb-3">Contact Information</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-gray-400" />
+                    <Mail className="w-4 h-4 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-gray-500">Email</p>
+                      <p className="text-sm text-muted-foreground ">Email</p>
                       <p className="font-medium">{selectedVendor.email}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-gray-400" />
+                    <Phone className="w-4 h-4 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-gray-500">Phone</p>
+                      <p className="text-sm text-muted-foreground">Phone</p>
                       <p className="font-medium">{selectedVendor.phone}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 md:col-span-2">
-                    <MapPin className="w-4 h-4 text-gray-400" />
+                    <MapPin className="w-4 h-4 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-gray-500">Shop Address</p>
+                      <p className="text-sm text-muted-foreground">Shop Address</p>
                       <p className="font-medium">{selectedVendor.shopAddress}</p>
                     </div>
                   </div>
@@ -472,54 +487,54 @@ const Vendors = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {selectedVendor.gstNumber && (
                     <div className="flex items-center gap-2">
-                      <Hash className="w-4 h-4 text-gray-400" />
+                      <Hash className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm text-gray-500">GST Number</p>
+                        <p className="text-sm text-muted-foreground">GST Number</p>
                         <p className="font-medium">{selectedVendor.gstNumber}</p>
                       </div>
                     </div>
                   )}
                   {selectedVendor.yearsOfOperation && (
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-gray-400" />
+                      <Clock className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm text-gray-500">Years of Operation</p>
+                        <p className="text-sm text-muted-foreground">Years of Operation</p>
                         <p className="font-medium">{selectedVendor.yearsOfOperation} years</p>
                       </div>
                     </div>
                   )}
                   {selectedVendor.shopLicense && (
                     <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-gray-400" />
+                      <FileText className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm text-gray-500">Shop License</p>
+                        <p className="text-sm text-muted-foreground">Shop License</p>
                         <p className="font-medium">{selectedVendor.shopLicense}</p>
                       </div>
                     </div>
                   )}
                   {selectedVendor.udyamRegistration && (
                     <div className="flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-gray-400" />
+                      <Building2 className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm text-gray-500">Udyam Registration</p>
+                        <p className="text-sm text-muted-foreground">Udyam Registration</p>
                         <p className="font-medium">{selectedVendor.udyamRegistration}</p>
                       </div>
                     </div>
                   )}
                   {selectedVendor.fssaiLicense && (
                     <div className="flex items-center gap-2">
-                      <Utensils className="w-4 h-4 text-gray-400" />
+                      <Utensils className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm text-gray-500">FSSAI License</p>
+                        <p className="text-sm text-muted-foreground">FSSAI License</p>
                         <p className="font-medium">{selectedVendor.fssaiLicense}</p>
                       </div>
                     </div>
                   )}
                   {selectedVendor.tradeLicense && (
                     <div className="flex items-center gap-2">
-                      <Briefcase className="w-4 h-4 text-gray-400" />
+                      <Briefcase className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm text-gray-500">Trade License</p>
+                        <p className="text-sm text-muted-foreground">Trade License</p>
                         <p className="font-medium">{selectedVendor.tradeLicense}</p>
                       </div>
                     </div>
@@ -533,24 +548,24 @@ const Vendors = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-blue-600">{selectedVendor.products}</p>
-                    <p className="text-xs text-gray-500">Products</p>
+                    <p className="text-xs text-muted-foreground">Products</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-green-600">{selectedVendor.totalSales || 0}</p>
-                    <p className="text-xs text-gray-500">Total Sales</p>
+                    <p className="text-xs text-muted-foreground">Total Sales</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-purple-600">{selectedVendor.revenue}</p>
-                    <p className="text-xs text-gray-500">Revenue</p>
+                    <p className="text-xs text-muted-foreground">Revenue</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-yellow-600">{selectedVendor.rating}</p>
-                    <p className="text-xs text-gray-500">Rating</p>
+                    <p className="text-xs text-muted-foreground">Rating</p>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-sm text-gray-500">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Calendar className="w-4 h-4" />
                 <span>Joined on {selectedVendor.joinDate}</span>
               </div>
@@ -579,8 +594,8 @@ const Vendors = () => {
           {vendorToCancel && (
             <div className="py-4">
               <p className="font-medium">{vendorToCancel.businessName}</p>
-              <p className="text-sm text-gray-500">Owner: {vendorToCancel.ownerName}</p>
-              <p className="text-sm text-gray-500">Email: {vendorToCancel.email}</p>
+              <p className="text-sm text-muted-foreground">Owner: {vendorToCancel.ownerName}</p>
+              <p className="text-sm text-muted-foreground">Email: {vendorToCancel.email}</p>
             </div>
           )}
 

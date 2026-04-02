@@ -206,18 +206,18 @@ const Banners = () => {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-4 bg-background text-foreground">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
+     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Banners</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">Manage homepage banners and promotions</p>
+          <h1 className="text-2xl font-bold text-foreground">Banners</h1>
+          <p className="text-sm text-muted-foreground mt-1">Manage homepage banners and promotions</p>
         </div>
         
         {/* Add Banner Dialog */}
         <Dialog open={addDialogOpen} onOpenChange={handleAddDialogChange}>
           <DialogTrigger asChild>
-            <Button className="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center gap-2">
+            <Button className="w-full sm:w-auto mt-4 sm:mt-0">
               <Plus className="w-4 h-4" />
               <span>Add Banner</span>
             </Button>
@@ -339,7 +339,7 @@ const Banners = () => {
                             <img
                               src={imagePreview}
                               alt="Preview"
-                              className="w-full h-28 sm:h-32 object-cover rounded-lg"
+                              className="w-full h-24 sm:h-32 object-cover"
                             />
                             <Button
                               type="button"
@@ -563,12 +563,12 @@ const Banners = () => {
       </div>
 
       {/* Banner List */}
-      <Card className="w-full shadow-sm">
-        <CardHeader className="p-4 sm:p-6">
+      <Card className="w-full bg-card text-card-foreground shadow-sm">
+        <CardHeader className="p-3 sm:p-2">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <CardTitle className="text-lg sm:text-xl">Banner List</CardTitle>
-              <CardDescription className="text-xs sm:text-sm text-gray-600 mt-1">
+              <CardTitle className="text-base font-semibold">Banner List</CardTitle>
+              <CardDescription className="text-xs  text-muted-foreground mt-0.5">
                 Manage all banners displayed on the homepage
               </CardDescription>
             </div>
@@ -579,7 +579,7 @@ const Banners = () => {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
+        <CardContent className="p-3 pt-1">
           {banners.length === 0 ? (
             <div className="text-center py-8 sm:py-12">
               <Upload className="w-12 h-12 sm:w-16 sm:h-16 text-gray-300 mx-auto mb-3 sm:mb-4" />
@@ -607,12 +607,12 @@ const Banners = () => {
                         </Badge>
                       </div>
                     </div>
-                    <div className="p-2 sm:p-3">
+                   <div className="bg-card text-card-foreground rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                       <h3 className="font-medium text-xs sm:text-sm text-gray-900 line-clamp-1">{banner.title}</h3>
-                      <p className="text-[10px] sm:text-xs text-gray-600 mb-1 sm:mb-2">
+                      <p className="text-[10px] sm:text-xstext-muted-foreground mb-0.5">
                         Priority: {banner.priority}
                       </p>
-                      <div className="flex flex-col xs:flex-row gap-1 xs:items-center xs:justify-between">
+                      <div className="flex flex-col xs:flex-row gap-0.5 xs:items-center xs:justify-between">
                         <Button 
                           variant="outline" 
                           size="sm" 
